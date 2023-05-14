@@ -6,7 +6,9 @@ import java.util.Date;
 @Entity
 @Table(name="Employee_history")
 public class Employee {
-    public Employee(Integer id, String firstName, String lastName, Date dateofBirth, String gender, Integer weight, Integer height, Timestamp date2, Integer indexResult, Integer indexRange) {
+    public Employee(){
+    }
+    public Employee(Integer id, String firstName, String lastName, Date dateofBirth, String gender, Integer weight, Integer height, Timestamp date2, Double indexResult, Integer indexRange) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +22,7 @@ public class Employee {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Integer id;
     @Column(name = "firstName")
@@ -38,7 +40,7 @@ public class Employee {
     @Column(name = "date2")
     private Timestamp date2;
     @Column(name = "indexResult")
-    private  Integer indexResult;
+    private Double indexResult;
     @Column(name = "indexRange")
     private Integer indexRange;
 
@@ -106,12 +108,23 @@ public class Employee {
         this.date2 = date2;
     }
 
-    public Integer getIndexResult() {
+    public Double getIndexResult() {
         return indexResult;
     }
 
-    public void setIndexResult(Integer indexResult) {
-        this.indexResult = indexResult;
+    public void setIndexResult(double indexResul) {
+
+        this.indexResult = indexResul;
+        if (indexResult< 18.5) {
+            setIndexRange(Integer.valueOf("Underweight"));
+        } else if (indexResult < 25) {
+            setIndexRange(Integer.valueOf("Normal weight"));
+        } else if (indexResult < 30) {
+            setIndexRange(Integer.valueOf("Overweight"));
+        } else {
+            setIndexRange(Integer.valueOf("Obese"));
+        }
+
     }
 
     public Integer getIndexRange() {
@@ -119,6 +132,10 @@ public class Employee {
     }
 
     public void setIndexRange(Integer indexRange) {
+
         this.indexRange = indexRange;
     }
+
+
 }
+
